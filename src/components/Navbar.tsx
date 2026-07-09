@@ -26,7 +26,7 @@ export default function Navbar() {
   useEffect(() => () => { document.body.style.overflow = ""; }, []);
 
   const scrollTo = (id: string) => {
-    if (location.pathname !== "/") { window.location.href = `/#${id}`; return; }
+    if (location.pathname !== "/") { window.location.href = `${import.meta.env.BASE_URL}#${id}`; return; }
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setOpen(false);
   };
