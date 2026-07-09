@@ -12,12 +12,12 @@ const IMPACT = [
 
 const TEAM: { name: string; initials: string; role: string; bio: string; icon: typeof TrendingUp; photo?: string }[] = [
   {
-    name: "Serigne Bassirou Abdou Khoudoss MBOUP ", initials: "SM", role: "Marketing & Finance", icon: TrendingUp,
+    name: " Bassirou Abdou Khoudoss MBOUP ", initials: "SM", role: "Marketing & Finance", icon: TrendingUp,
     photo: "/team/BASS.jpeg",
     bio: "Contribue à la stratégie marketing et financière de Finavators.",
   },
   {
-    name: "Moussa Seiidi", initials: "M", role: "Marketing & Finance", icon: TrendingUp,
+    name: "Moussa SEIDI", initials: "M", role: "Marketing & Finance", icon: TrendingUp,
     photo: "/team/moussa.jpeg",
     bio: "Accompagne le développement commercial et financier de l'entreprise.",
   },

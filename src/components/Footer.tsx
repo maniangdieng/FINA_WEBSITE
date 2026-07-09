@@ -67,7 +67,7 @@ export default function Footer() {
             <h4>Support</h4>
             <ul>
               <li><Link to="/contact">Assistance</Link></li>
-              <li><Link to="/messages">Espace admin</Link></li>
+
             </ul>
           </div>
         </div>

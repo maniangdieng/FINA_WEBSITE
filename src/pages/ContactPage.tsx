@@ -31,7 +31,7 @@ function validate(data: ContactFormData): Errors {
 }
 
 const CONTACT_INFO = [
-  { Icon: MapPin,  strong: "Adresse",        span: "Dakar, Sénégal" },
+  { Icon: MapPin,  strong: "Adresse",        span: "Ziguinchor, Sénégal" },
   { Icon: Phone,   strong: "Téléphone",       span: PHONE_DISPLAY, href: `tel:${PHONE_TEL}` },
   { Icon: Mail,    strong: "Email",           span: EMAIL, href: `mailto:${EMAIL}` },
   { Icon: Clock,   strong: "Disponibilité",   span: "Lun–Ven, 8h–18h" },
