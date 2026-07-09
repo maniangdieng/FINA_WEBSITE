@@ -7,6 +7,7 @@ import {
 import { useMessages } from "../hooks/useMessages";
 import type { ContactFormData } from "../types";
 import { PHONE_DISPLAY, PHONE_TEL, PHONE_WA, EMAIL, WEB3FORMS_ACCESS_KEY } from "../constants";
+import { asset } from "../lib/asset";
 
 const CATEGORIES: { value: ContactFormData["category"]; label: string }[] = [
   { value: "commercial",  label: "Demande commerciale / démo" },
@@ -263,16 +264,16 @@ export default function ContactPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img src="/social/whatsapp.svg" width={16} height={16} alt="" />
+                    <img src={asset("/social/whatsapp.svg")} width={16} height={16} alt="" />
                   </a>
                   <a href="#" className="social-link social-link--brand" aria-label="Instagram">
-                    <img src="/social/instagram.svg" width={16} height={16} alt="" />
+                    <img src={asset("/social/instagram.svg")} width={16} height={16} alt="" />
                   </a>
                   <a href="#" className="social-link social-link--brand" aria-label="LinkedIn">
-                    <img src="/social/linkedin.svg" width={16} height={16} alt="" />
+                    <img src={asset("/social/linkedin.svg")} width={16} height={16} alt="" />
                   </a>
                   <a href="#" className="social-link social-link--brand" aria-label="TikTok">
-                    <img src="/social/tiktok.svg" width={15} height={15} alt="" />
+                    <img src={asset("/social/tiktok.svg")} width={15} height={15} alt="" />
                   </a>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
+import { asset } from "../lib/asset";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -44,7 +45,7 @@ export default function Navbar() {
 
           {/* Logo — icône réelle + wordmark HTML, sur fond sombre */}
           <Link to="/" className="navbar-brand" aria-label="Finavators">
-            <img src="/logo-mark.png" alt="" className="navbar-logo-mark" />
+            <img src={asset("/logo-mark.png")} alt="" className="navbar-logo-mark" />
             <span className="navbar-logo-word">
               <span className="navbar-logo-word-fina">FINA</span>
               <span className="navbar-logo-word-vators">VATORS</span>

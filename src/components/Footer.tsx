@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Globe } from "lucide-react";
 import { PHONE_WA } from "../constants";
+import { asset } from "../lib/asset";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -10,7 +11,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-col">
             <Link to="/" className="footer-logo-wrap" aria-label="Finavators">
-              <img src="/finavators.png" alt="Finavators" className="footer-logo-img" />
+              <img src={asset("/finavators.png")} alt="Finavators" className="footer-logo-img" />
             </Link>
             <p>
               Finavators conçoit des solutions de gestion commerciale et ERP pour les PME africaines. Pilotez votre activité avec précision et sérénité.
@@ -27,16 +28,16 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src="/social/whatsapp.svg" width={16} height={16} alt="" />
+                <img src={asset("/social/whatsapp.svg")} width={16} height={16} alt="" />
               </a>
               <a href="#" className="social-link social-link--brand" aria-label="Instagram">
-                <img src="/social/instagram.svg" width={16} height={16} alt="" />
+                <img src={asset("/social/instagram.svg")} width={16} height={16} alt="" />
               </a>
               <a href="#" className="social-link social-link--brand" aria-label="LinkedIn">
-                <img src="/social/linkedin.svg" width={16} height={16} alt="" />
+                <img src={asset("/social/linkedin.svg")} width={16} height={16} alt="" />
               </a>
               <a href="#" className="social-link social-link--brand" aria-label="TikTok">
-                <img src="/social/tiktok.svg" width={15} height={15} alt="" />
+                <img src={asset("/social/tiktok.svg")} width={15} height={15} alt="" />
               </a>
             </div>
           </div>

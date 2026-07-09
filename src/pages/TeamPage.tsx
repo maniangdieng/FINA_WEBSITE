@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Users, TrendingUp, Code2, RotateCw, Target } from "lucide-react";
 import { useFadeUp } from "../hooks/useFadeUp";
 import Counter from "../components/Counter";
+import { asset } from "../lib/asset";
 
 const IMPACT = [
   { n: 500, sfx: "+", lbl: "PME équipées" },
@@ -103,7 +104,7 @@ export default function TeamPage() {
                     {/* Front */}
                     <div className="team-face team-face-front">
                       {m.photo ? (
-                        <img src={m.photo} alt="" className="team-face-photo" />
+                        <img src={asset(m.photo)} alt="" className="team-face-photo" />
                       ) : (
                         <div className="team-face-monogram">
                           <span className="team-mono-letter">{m.initials[0]}</span>
