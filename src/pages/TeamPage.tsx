@@ -12,16 +12,17 @@ const IMPACT = [
 
 const TEAM: { name: string; initials: string; role: string; bio: string; icon: typeof TrendingUp; photo?: string }[] = [
   {
-    name: "Serigne Bassirou Abdoul Khoudoss MBOUP (Khaïssa 1)", initials: "SM", role: "Marketing & Finance", icon: TrendingUp,
-    photo: "/team/bass.jpg",
+    name: "Serigne Bassirou Abdou Khoudoss MBOUP ", initials: "SM", role: "Marketing & Finance", icon: TrendingUp,
+    photo: "/team/BASS.jpeg",
     bio: "Contribue à la stratégie marketing et financière de Finavators.",
   },
   {
-    name: "Moussa", initials: "M", role: "Marketing & Finance", icon: TrendingUp,
+    name: "Moussa Seiidi", initials: "M", role: "Marketing & Finance", icon: TrendingUp,
+    photo: "/team/moussa.jpeg",
     bio: "Accompagne le développement commercial et financier de l'entreprise.",
   },
   {
-    name: "Yaya DRAME (Khaïssa 2)", initials: "YD", role: "Développement", icon: Code2,
+    name: "Yaya DRAME ", initials: "YD", role: "Développement", icon: Code2,
     photo: "/team/yaks.jpeg",
     bio: "Participe à la conception et au développement de la plateforme.",
   },
