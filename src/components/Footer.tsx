@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Globe } from "lucide-react";
 import { PHONE_WA } from "../constants";
 import { asset } from "../lib/asset";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const location = useLocation();
+
+  const scrollTo = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname !== "/") { window.location.href = `${import.meta.env.BASE_URL}#${id}`; return; }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <footer className="footer">
       <div className="container">
@@ -45,12 +53,12 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Produit</h4>
             <ul>
-              <li><a href="#features">Fonctionnalités</a></li>
-              <li><a href="#modules">Modules</a></li>
-              <li><a href="#sectors">Secteurs</a></li>
-              <li><a href="#pricing">Tarifs</a></li>
-              <li><a href="#how">Comment ça marche</a></li>
-              <li><a href="#testimonials">Témoignages</a></li>
+              <li><a href="#features" onClick={scrollTo("features")}>Fonctionnalités</a></li>
+              <li><a href="#modules" onClick={scrollTo("modules")}>Modules</a></li>
+              <li><a href="#sectors" onClick={scrollTo("sectors")}>Secteurs</a></li>
+              <li><a href="#pricing" onClick={scrollTo("pricing")}>Tarifs</a></li>
+              <li><a href="#how" onClick={scrollTo("how")}>Comment ça marche</a></li>
+              <li><a href="#testimonials" onClick={scrollTo("testimonials")}>Témoignages</a></li>
             </ul>
           </div>
 
@@ -59,7 +67,7 @@ export default function Footer() {
             <ul>
               <li><Link to="/equipe">Finavators</Link></li>
               <li><Link to="/contact">Contact</Link></li>
-              <li><a href="#cta">Démo gratuite</a></li>
+              <li><a href="#cta" onClick={scrollTo("cta")}>Démo gratuite</a></li>
             </ul>
           </div>
 
