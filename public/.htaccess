@@ -10,6 +10,13 @@
   RewriteEngine On
   RewriteBase /
 
+  # Une seule URL canonique : https://www.finavators.com — sinon
+  # http://finavators.com, https://finavators.com, etc. sont indexés comme
+  # des sites séparés avec le même contenu (contenu dupliqué pour Google).
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^ https://www.finavators.com%{REQUEST_URI} [L,R=301]
+
   # Sers les vrais fichiers (JS, CSS, images, robots.txt, sitemap.xml...) tels quels
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d

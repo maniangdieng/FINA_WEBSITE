@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import GlobalAnimatedBg from "./components/GlobalAnimatedBg";
@@ -27,10 +27,24 @@ function ScrollGuard() {
   return null;
 }
 
+// The static index.html always ships a canonical tag pointing at the home
+// page (there's no per-route HTML to hardcode a different one into). Point
+// it at whatever route actually loaded, so /contact and /equipe don't read
+// to Google as duplicates of the home page.
+function CanonicalTag() {
+  const location = useLocation();
+  useEffect(() => {
+    const link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (link) link.href = `https://www.finavators.com${location.pathname}`;
+  }, [location.pathname]);
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ScrollGuard />
+      <CanonicalTag />
       <GlobalAnimatedBg />
       <Navbar />
       <main>
