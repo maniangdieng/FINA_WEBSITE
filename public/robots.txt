@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /messages
+
+Sitemap: https://www.finavators.com/sitemap.xml
