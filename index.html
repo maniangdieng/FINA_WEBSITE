@@ -1,6 +1,21 @@
 <!doctype html>
 <html lang="fr">
   <head>
+    <script>
+      // Retire la directive de "scroll to text fragment" (#:~:text=...) de
+      // l'URL avant que le navigateur ne commence à chercher ce texte dans
+      // la page. Sur une SPA rendue côté client, ce texte n'existe pas
+      // encore au premier instant, donc Chrome réessaie via un observateur
+      // de mutations DOM jusqu'à le trouver (souvent dans le footer, qui
+      // répète le même paragraphe sur toutes les pages) — d'où le saut
+      // vers le bas de page malgré toute correction faite après coup.
+      (function () {
+        var i = location.hash.indexOf(":~:");
+        if (i !== -1) {
+          history.replaceState(null, "", location.pathname + location.search + location.hash.slice(0, i));
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Finavators conçoit GPME-MT, un logiciel de gestion commerciale et ERP pour les PME africaines." />
