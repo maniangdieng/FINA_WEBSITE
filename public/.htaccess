@@ -1,3 +1,11 @@
+<IfModule mod_headers.c>
+  # Empêche Chrome de scroller automatiquement vers un passage de texte
+  # (Scroll-to-Text-Fragment, #:~:text=...) que Google ajoute parfois aux
+  # liens de résultats de recherche — sinon un clic peut atterrir n'importe
+  # où sur la page (ex: le footer) au lieu du haut.
+  Header always set Document-Policy "force-load-at-top"
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
