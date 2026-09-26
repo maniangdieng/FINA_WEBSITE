@@ -326,6 +326,7 @@ import {
   Store, HardHat, GraduationCap, Star, Minus, Crown, ArrowRight, BadgeCheck, Layers,
 } from "lucide-react";
 import type { LucideProps } from "lucide-react";
+import { usePrixPlans, type CodePlan } from "../hooks/usePrixPlans";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Icon = React.ComponentType<LucideProps & Record<string, any>>;
@@ -426,6 +427,7 @@ const SECTORS: { Icon: Icon; title: string; desc: string; tags: string[]; color:
 
 /* ── Pricing plans ── */
 interface Plan {
+  code: CodePlan; // plan correspondant dans l'application (prix réel)
   name: string;
   price: string;
   period: string;
@@ -438,10 +440,10 @@ interface Plan {
 }
 const PLANS: Plan[] = [
   {
-    name: "Starter", price: "15 000", period: "FCFA / mois",
+    code: "STARTER", name: "Starter", price: "15 000", period: "FCFA / mois",
     desc: "Parfait pour démarrer et gérer une activité solo ou en duo.",
     color: "var(--navy)", popular: false,
-    cta: "Commencer gratuitement", ctaStyle: "btn btn-outline-navy",
+    cta: "Demander une démo", ctaStyle: "btn btn-outline-navy",
     features: [
       { label: "2 utilisateurs", included: true },
       { label: "Ventes & Facturation", included: true },
@@ -456,7 +458,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    name: "Pro", price: "35 000", period: "FCFA / mois",
+    code: "BUSINESS", name: "Pro", price: "35 000", period: "FCFA / mois",
     desc: "La solution complète pour les PME en croissance qui veulent piloter.",
     color: "var(--gold)", popular: true,
     cta: "Demander une démo", ctaStyle: "btn btn-shimmer btn-primary",
@@ -474,7 +476,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    name: "Enterprise", price: "Sur devis", period: "personnalisé",
+    code: "ENTERPRISE", name: "Enterprise", price: "Sur devis", period: "personnalisé",
     desc: "Pour les groupes, multi-sites et entreprises à besoins spécifiques.",
     color: "var(--navy-d)", popular: false,
     cta: "Nous contacter", ctaStyle: "btn btn-navy",
@@ -493,6 +495,13 @@ const PLANS: Plan[] = [
   },
 ];
 
+// Prix affiché : celui de l'application quand il est chargé, sinon celui de PLANS.
+function prixAffiche(plan: Plan, prixApp: ReturnType<typeof usePrixPlans>): string {
+  if (!prixApp || !(plan.code in prixApp)) return plan.price;
+  const prix = prixApp[plan.code];
+  return prix === null || prix === undefined ? "Sur devis" : new Intl.NumberFormat("fr-FR").format(prix).replace(/\u202f/g, " ");
+}
+
 const WHY_CONTACT = [
   "Demande de démonstration personnalisée",
   "Devis pour votre équipe",
@@ -502,6 +511,7 @@ const WHY_CONTACT = [
 ];
 
 export default function HomePage() {
+  const prixApp = usePrixPlans();
   const heroRef    = useRef<HTMLDivElement>(null);
   const featRef    = useFadeUp();
   const modRef     = useFadeUp();
@@ -780,7 +790,7 @@ export default function HomePage() {
             <p>Choisissez le plan qui correspond à la taille et aux ambitions de votre entreprise. Changez de plan à tout moment.</p>
           </div>
           <div className="pricing-grid">
-            {PLANS.map((plan, i) => (
+            {PLANS.map((plan) => ({ ...plan, price: prixAffiche(plan, prixApp) })).map((plan, i) => (
               <div
                 key={plan.name}
                 className={`pricing-card fade-up delay-${i + 1}${plan.popular ? " pricing-card--popular" : ""}`}

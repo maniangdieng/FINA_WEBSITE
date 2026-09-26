@@ -4,9 +4,8 @@ import {
   MapPin, Phone, Mail, Clock, Send, Loader2, CheckCircle2,
   ChevronRight, MessageSquare, Handshake, Wrench, HelpCircle,
 } from "lucide-react";
-import { useMessages } from "../hooks/useMessages";
 import type { ContactFormData } from "../types";
-import { PHONE_DISPLAY, PHONE_TEL, PHONE_WA, EMAIL, WEB3FORMS_ACCESS_KEY } from "../constants";
+import { PHONE_DISPLAY, PHONE_TEL, PHONE_WA, EMAIL, WEB3FORMS_ACCESS_KEY, API_URL } from "../constants";
 import { asset } from "../lib/asset";
 
 const CATEGORIES: { value: ContactFormData["category"]; label: string }[] = [
@@ -53,8 +52,9 @@ const CAT_ICONS = {
 };
 
 export default function ContactPage() {
-  const { addMessage } = useMessages();
   const navigate = useNavigate();
+  // Champ piège anti-robots : invisible pour un humain, rempli par les robots.
+  const [piege, setPiege] = useState("");
   const [form, setForm]     = useState<ContactFormData>(INITIAL);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
@@ -74,32 +74,44 @@ export default function ContactPage() {
     setErrors({});
     setSending(true);
 
-    addMessage(form);
+    if (piege) { setSending(false); setSent(true); return; } // robot : on n'envoie rien
 
-    try {
+    // Envoi en parallèle : à l'application (Super-admin › Demandes d'essai) et
+    // par email (Web3Forms). Si les deux échouent, on bascule sur la messagerie
+    // du visiteur pour que le message parte quand même.
+    const avecDelai = (url: string, body: unknown) => {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 6000);
-      const res = await fetch("https://api.web3forms.com/submit", {
+      return fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `Finavators — ${form.subject}`,
-          from_name: form.name,
-          name: form.name,
-          email: form.email,
-          phone: form.phone || "—",
-          category: form.category,
-          message: form.body,
-        }),
+        body: JSON.stringify(body),
         signal: controller.signal,
-      });
-      clearTimeout(timeout);
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error("web3forms failed");
-    } catch {
-      // Delivery failed (offline, blocked, quota, etc.) — fall back to the
-      // visitor's own mail client so the message still goes out.
+      }).finally(() => clearTimeout(timeout));
+    };
+
+    const versApp = avecDelai(`${API_URL}/trial-requests`, {
+      nom: form.name.slice(0, 120),
+      email: form.email,
+      ...(form.phone && { telephone: form.phone.slice(0, 30) }),
+      message: `[Site web · ${form.category}] ${form.subject}\n\n${form.body}`.slice(0, 1000),
+    }).then((res) => { if (!res.ok) throw new Error("api"); });
+
+    const parEmail = avecDelai("https://api.web3forms.com/submit", {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: `Finavators — ${form.subject}`,
+      from_name: form.name,
+      name: form.name,
+      email: form.email,
+      phone: form.phone || "—",
+      category: form.category,
+      message: form.body,
+    })
+      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => { if (!ok || !data.success) throw new Error("web3forms"); });
+
+    const resultats = await Promise.allSettled([versApp, parEmail]);
+    if (resultats.every((r) => r.status === "rejected")) {
       const body = `Nom : ${form.name}\nEmail : ${form.email}\nTéléphone : ${form.phone || "—"}\nCatégorie : ${form.category}\n\n${form.body}`;
       window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`;
     }
@@ -155,6 +167,11 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} noValidate>
+                  <input
+                    type="text" name="website" value={piege} onChange={(e) => setPiege(e.target.value)}
+                    tabIndex={-1} autoComplete="off" aria-hidden="true"
+                    style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
+                  />
                   <div className="form-row">
                     <div className="form-group">
                       <label>Nom complet <span className="req">*</span></label>

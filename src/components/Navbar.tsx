@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
+import { APP_URL } from "../constants";
 import { asset } from "../lib/asset";
 
 export default function Navbar() {
@@ -61,6 +62,9 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-cta">
+            <a href={`${APP_URL}/login`} className="nav-link" style={{ marginRight: "8px" }}>
+              Se connecter
+            </a>
             <Link to="/contact" className="btn btn-primary" style={{ padding: "8px 20px", fontSize: ".85rem" }}>
               Demander une démo
             </Link>
@@ -80,6 +84,7 @@ export default function Navbar() {
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("testimonials")}>Avis</button>
           <NavLink to="/contact" className="mobile-nav-link">Contact</NavLink>
+          <a href={`${APP_URL}/login`} className="mobile-nav-link">Se connecter</a>
           <Link to="/contact" className="btn btn-primary" style={{ marginTop: "8px", justifyContent: "center" }}>
             Demander une démo
           </Link>

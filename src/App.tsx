@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 import GlobalAnimatedBg from "./components/GlobalAnimatedBg";
 import HomePage from "./pages/HomePage";
 import ContactPage from "./pages/ContactPage";
-import MessagesPage from "./pages/MessagesPage";
 import TeamPage from "./pages/TeamPage";
 
 const SECTION_IDS = ["features", "modules", "sectors", "how", "pricing", "testimonials", "cta"];
@@ -51,7 +50,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/messages" element={<MessagesPage />} />
           <Route path="/equipe" element={<TeamPage />} />
         </Routes>
       </main>
