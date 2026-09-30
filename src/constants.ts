@@ -8,7 +8,7 @@ export const SITE_URL = "https://www.finavators.com";
 
 // Identifiant de mesure Google Analytics 4 (G-XXXXXXXXXX). Vide = pas
 // d'analytics et pas de bandeau cookies.
-export const GA_MEASUREMENT_ID = "";
+export const GA_MEASUREMENT_ID = "G-ZWWSY0LS9E";
 
 // Web3Forms access key — public by design (tied to the destination email,
 // rate-limited server-side), safe to ship in client-side code.
