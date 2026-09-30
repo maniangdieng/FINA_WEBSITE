@@ -40,7 +40,9 @@ ErrorDocument 404 /404.html
   RewriteBase /
 
   # Une seule URL canonique : https://www.finavators.com
-  RewriteCond %{HTTPS} off [OR]
+  # Pas de test %{HTTPS} : chez systalink, Apache est derrière un proxy nginx
+  # qui termine le HTTPS, donc Apache voit toujours « off » (boucle infinie).
+  # Le passage http → https est assuré par le proxy et par HSTS.
   RewriteCond %{HTTP_HOST} !^www\. [NC]
   RewriteRule ^ https://www.finavators.com%{REQUEST_URI} [L,R=301]
 
