@@ -326,6 +326,7 @@ import {
   Store, HardHat, GraduationCap, Star, Minus, Crown, ArrowRight, BadgeCheck, Layers,
 } from "lucide-react";
 import type { LucideProps } from "lucide-react";
+import PRIX_PUBLIES from "../prix-plans.json";
 import { usePrixPlans, type CodePlan } from "../hooks/usePrixPlans";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -431,7 +432,6 @@ const SECTORS: { Icon: Icon; title: string; desc: string; tags: string[]; color:
 interface Plan {
   code: CodePlan; // plan correspondant dans l'application (prix réel)
   name: string;
-  price: string;
   period: string;
   desc: string;
   color: string;
@@ -442,7 +442,7 @@ interface Plan {
 }
 const PLANS: Plan[] = [
   {
-    code: "GRATUIT", name: "Gratuit", price: "0", period: "FCFA / mois",
+    code: "GRATUIT", name: "Gratuit", period: "FCFA / mois",
     desc: "Pour découvrir l'outil avec une petite activité.",
     color: "var(--navy)", popular: false,
     cta: "Demander un accès", ctaStyle: "btn btn-outline-navy",
@@ -461,7 +461,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    code: "STARTER", name: "Starter", price: "15 000", period: "FCFA / mois",
+    code: "STARTER", name: "Starter", period: "FCFA / mois",
     desc: "Pour une petite équipe qui facture tous les jours.",
     color: "var(--navy)", popular: false,
     cta: "Demander une démo", ctaStyle: "btn btn-outline-navy",
@@ -480,7 +480,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    code: "BUSINESS", name: "Business", price: "35 000", period: "FCFA / mois",
+    code: "BUSINESS", name: "Business", period: "FCFA / mois",
     desc: "Pour les PME en croissance, sans limite de catalogue.",
     color: "var(--gold)", popular: true,
     cta: "Demander une démo", ctaStyle: "btn btn-shimmer btn-primary",
@@ -499,7 +499,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    code: "ENTERPRISE", name: "Enterprise", price: "Sur devis", period: "personnalisé",
+    code: "ENTERPRISE", name: "Enterprise", period: "personnalisé",
     desc: "Pour les grandes structures : tarif et accompagnement sur mesure.",
     color: "var(--navy-d)", popular: false,
     cta: "Nous contacter", ctaStyle: "btn btn-navy",
@@ -520,9 +520,10 @@ const PLANS: Plan[] = [
 ];
 
 // Prix affiché : celui de l'application quand il est chargé, sinon celui de PLANS.
+// Prix en direct de l'application ; à défaut, ceux relevés au dernier build.
 function prixAffiche(plan: Plan, prixApp: ReturnType<typeof usePrixPlans>): string {
-  if (!prixApp || !(plan.code in prixApp)) return plan.price;
-  const prix = prixApp[plan.code];
+  const source = prixApp && plan.code in prixApp ? prixApp : PRIX_PUBLIES;
+  const prix = source[plan.code];
   return prix === null || prix === undefined ? "Sur devis" : new Intl.NumberFormat("fr-FR").format(prix).replace(/\u202f/g, " ");
 }
 
