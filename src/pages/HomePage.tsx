@@ -319,8 +319,8 @@ import { useFadeUp } from "../hooks/useFadeUp";
 import Counter from "../components/Counter";
 import {
   Package, FileText, BarChart2, Wallet, Users, ShieldCheck,
-  ShoppingBag, User, CreditCard, TrendingUp, Building2,
-  ClipboardList, Bell, Globe, Smartphone, LinkIcon,
+  ShoppingBag, CreditCard, TrendingUp, Building2,
+  ClipboardList, Bell, Globe, Smartphone,
   Lock, Zap, Shield, Target, Check, Sparkles, ChevronRight, MonitorSmartphone,
   UtensilsCrossed, Leaf, Briefcase, Heart, Truck, BookOpen, Cpu, Hammer,
   Store, HardHat, GraduationCap, Star, Minus, Crown, ArrowRight, BadgeCheck, Layers,
@@ -357,27 +357,27 @@ function FinanceBar({ pct, label, val }: { pct: number; label: string; val: stri
 
 /* ── Data ── */
 const FEATURES: { Icon: Icon; title: string; desc: string }[] = [
-  { Icon: Package,      title: "Gestion des stocks",    desc: "Inventaires, mouvements ENTREE/SORTIE, alertes de seuil. Votre stock toujours à jour." },
-  { Icon: FileText,     title: "Facturation",            desc: "Devis, factures BROUILLON → EMISE → PAYEE. PDF généré automatiquement." },
+  { Icon: Package,      title: "Gestion des stocks",    desc: "Entrées et sorties de stock, alerte en temps réel dès qu'un produit passe sous son seuil." },
+  { Icon: FileText,     title: "Facturation",            desc: "Factures BROUILLON → ÉMISE → PAYÉE, PDF généré automatiquement." },
   { Icon: BarChart2,    title: "Analyse financière",     desc: "Seuil de rentabilité, marge sur coût variable, taux de couverture. Pilotez vos indicateurs." },
-  { Icon: Wallet,       title: "Gestion de caisse",      desc: "Suivi des transactions, inventaires physiques, rapprochements avec dénomination détaillée." },
-  { Icon: Users,        title: "CRM Clients",            desc: "Fiches clients, historique des commandes, relances. Relation client au cœur de votre activité." },
-  { Icon: ShieldCheck,  title: "Rôles & sécurité",       desc: "Admin PME, Opérateur, Observateur. Contrôle d'accès fin pour chaque module." },
+  { Icon: Wallet,       title: "Gestion de caisse",      desc: "Encaissements, décaissements et comptage de caisse billet par billet." },
+  { Icon: Users,        title: "Marketing & relances",   desc: "Campagnes, relances de paiement et fidélisation de vos clients." },
+  { Icon: ShieldCheck,  title: "Rôles & sécurité",       desc: "Administrateur et Opérateur : chacun n'accède qu'à ce qui le concerne, et chaque action est tracée." },
 ];
 
 const MODULES: { Icon: Icon; title: string; desc: string; tag: string }[] = [
-  { Icon: ShoppingBag,   title: "Ventes",       desc: "Devis, factures, avoirs",       tag: "Core" },
-  { Icon: Package,       title: "Stock",        desc: "Produits, catégories, lots",     tag: "Core" },
-  { Icon: User,          title: "Clients",      desc: "CRM, historique, relances",      tag: "Core" },
-  { Icon: CreditCard,    title: "Caisse",       desc: "Encaissements, inventaires",     tag: "Core" },
-  { Icon: TrendingUp,    title: "Finance",      desc: "SdR, MCV, analyse coûts",       tag: "Analyse" },
-  { Icon: Building2,     title: "Fournisseurs", desc: "Achats, BL, règlements",         tag: "Achats" },
-  { Icon: Users,         title: "RH",           desc: "Effectifs, congés, paie",        tag: "RH" },
-  { Icon: ClipboardList, title: "Rapports",     desc: "Exports PDF, Excel, tableaux",   tag: "BI" },
-  { Icon: Bell,          title: "Alertes",      desc: "Seuils, relances, push",         tag: "Smart" },
-  { Icon: Globe,         title: "Multi-sites",  desc: "Plusieurs dépôts, succursales",  tag: "Avancé" },
-  { Icon: Smartphone,    title: "Mobile-ready", desc: "Interface responsive tablette",  tag: "UX" },
-  { Icon: LinkIcon,      title: "API ouverte",  desc: "Connectez vos outils métier",    tag: "Dev" },
+  { Icon: CreditCard,    title: "Caisse",               desc: "Encaissements, comptage",        tag: "Opérations" },
+  { Icon: ShoppingBag,   title: "Factures",             desc: "Émission, suivi, PDF",           tag: "Opérations" },
+  { Icon: Package,       title: "Stock",                desc: "Mouvements, seuils",             tag: "Opérations" },
+  { Icon: Layers,        title: "Produits",             desc: "Catalogue et catégories",        tag: "Opérations" },
+  { Icon: Building2,     title: "Fournisseurs",         desc: "Carnet fournisseurs",            tag: "Achats" },
+  { Icon: Wallet,        title: "Achats à crédit",      desc: "Dettes et règlements",           tag: "Achats" },
+  { Icon: TrendingUp,    title: "Finance",              desc: "SdR, MCV, simulations",          tag: "Analyse" },
+  { Icon: ClipboardList, title: "Exports",              desc: "Rapports PDF et Excel",          tag: "Pilotage" },
+  { Icon: Target,        title: "Marketing",            desc: "Campagnes, relances",            tag: "Pilotage" },
+  { Icon: Lock,          title: "Journal d'audit",      desc: "Qui a fait quoi, et quand",      tag: "Pilotage" },
+  { Icon: Bell,          title: "Alertes",              desc: "Stock bas, notifications",       tag: "Smart" },
+  { Icon: Users,         title: "Utilisateurs",         desc: "Comptes et rôles",               tag: "Admin" },
 ];
 
 const TRUST: { Icon: Icon; txt: string }[] = [
@@ -390,7 +390,7 @@ const TRUST: { Icon: Icon; txt: string }[] = [
 
 const STEPS = [
   { n: "1", title: "Demandez votre accès",     desc: "Après une courte démo, nous créons l'espace de votre entreprise et vos utilisateurs." },
-  { n: "2", title: "Importez vos données",     desc: "Produits, clients, stocks existants — migration assistée sans effort." },
+  { n: "2", title: "Saisissez vos produits",   desc: "Votre catalogue et vos stocks de départ, avec notre accompagnement pour la mise en place." },
   { n: "3", title: "Pilotez en temps réel",    desc: "Tableaux de bord, alertes, rapports — l'info au bon moment." },
   { n: "4", title: "Développez sereinement",   desc: "Vos indicateurs guident vos décisions pour une croissance maîtrisée." },
 ];
@@ -399,24 +399,24 @@ const FINANCE_ITEMS = [
   "Seuil de rentabilité calculé en temps réel",
   "Marge sur coût variable par produit",
   "Taux de couverture des charges fixes",
-  "Simulations de scénarios (optimiste / pessimiste)",
-  "Export des données pour votre comptable",
+  "Simulations « et si ? » sur vos prix et vos charges",
+  "Exports PDF et Excel pour votre comptable",
 ];
 
 /* ── Sectors ── */
 const SECTORS: { Icon: Icon; title: string; desc: string; tags: string[]; color: string }[] = [
   { Icon: Store,           title: "Commerce & Négoce",        desc: "Boutiques, grossistes, supermarchés, épiceries, quincailleries.",       tags: ["Stocks", "Ventes", "Caisse"],        color: "#4F86C6" },
-  { Icon: UtensilsCrossed, title: "Restauration & Hôtellerie", desc: "Restaurants, hôtels, fast-food, traiteurs, cafétérias.",               tags: ["Commandes", "Caisse", "Achats"],     color: "#E67E22" },
+  { Icon: UtensilsCrossed, title: "Restauration & Hôtellerie", desc: "Restaurants, hôtels, fast-food, traiteurs, cafétérias.",               tags: ["Caisse", "Stock", "Achats"],     color: "#E67E22" },
   { Icon: Leaf,            title: "Agriculture & Agro-alim.",  desc: "Exploitations, coopératives, agro-transformation, marchés ruraux.",     tags: ["Stocks", "Fournisseurs", "Finance"],  color: "#27AE60" },
-  { Icon: HardHat,         title: "BTP & Construction",        desc: "Entreprises BTP, promoteurs, génie civil, artisans du bâtiment.",       tags: ["Projets", "Fournisseurs", "RH"],     color: "#E74C3C" },
-  { Icon: Briefcase,       title: "Services Professionnels",   desc: "Cabinets conseil, agences, bureaux d'études, prestataires.",            tags: ["Factures", "CRM", "Rapports"],       color: "#8E44AD" },
-  { Icon: Heart,           title: "Pharmacie & Santé",         desc: "Pharmacies, cliniques, cabinets médicaux, distributeurs de médicaments.", tags: ["Stocks", "Lots", "Alertes"],        color: "#E84393" },
-  { Icon: Truck,           title: "Transport & Logistique",    desc: "Transporteurs, entrepôts, coursiers, opérateurs portuaires.",           tags: ["Multi-dépôts", "Clients", "Finance"], color: "#1ABC9C" },
-  { Icon: GraduationCap,   title: "Éducation & Formation",     desc: "Écoles, centres de formation, universités privées, instituts.",         tags: ["Facturation", "CRM", "RH"],         color: "#3498DB" },
-  { Icon: Cpu,             title: "Technologie & IT",          desc: "ESN, startups, éditeurs de logiciels, développeurs indépendants.",      tags: ["API", "Factures", "Rapports"],       color: "#2C3E50" },
+  { Icon: HardHat,         title: "BTP & Construction",        desc: "Entreprises BTP, promoteurs, génie civil, artisans du bâtiment.",       tags: ["Fournisseurs", "Achats", "Factures"],     color: "#E74C3C" },
+  { Icon: Briefcase,       title: "Services Professionnels",   desc: "Cabinets conseil, agences, bureaux d'études, prestataires.",            tags: ["Factures", "Marketing", "Exports"],       color: "#8E44AD" },
+  { Icon: Heart,           title: "Pharmacie & Santé",         desc: "Pharmacies, cliniques, cabinets médicaux, distributeurs de médicaments.", tags: ["Stocks", "Alertes", "Factures"],        color: "#E84393" },
+  { Icon: Truck,           title: "Transport & Logistique",    desc: "Transporteurs, entrepôts, coursiers, opérateurs portuaires.",           tags: ["Factures", "Caisse", "Finance"], color: "#1ABC9C" },
+  { Icon: GraduationCap,   title: "Éducation & Formation",     desc: "Écoles, centres de formation, universités privées, instituts.",         tags: ["Factures", "Caisse", "Marketing"],         color: "#3498DB" },
+  { Icon: Cpu,             title: "Technologie & IT",          desc: "ESN, startups, éditeurs de logiciels, développeurs indépendants.",      tags: ["Factures", "Finance", "Exports"],       color: "#2C3E50" },
   { Icon: Hammer,          title: "Artisanat & Production",    desc: "Ateliers, forges, couturières, menuisiers, fabricants locaux.",         tags: ["Stocks", "Ventes", "Caisse"],        color: "#D35400" },
-  { Icon: BookOpen,        title: "Édition & Médias",          desc: "Imprimeries, journaux, maisons d'édition, agences de communication.",   tags: ["CRM", "Factures", "Livraisons"],     color: "#16A085" },
-  { Icon: Building2,       title: "Immobilier & Gestion",      desc: "Agences immobilières, syndics, promoteurs, gestionnaires de biens.",    tags: ["Finance", "CRM", "Rapports"],        color: "#7F8C8D" },
+  { Icon: BookOpen,        title: "Édition & Médias",          desc: "Imprimeries, journaux, maisons d'édition, agences de communication.",   tags: ["Factures", "Stocks", "Marketing"],     color: "#16A085" },
+  { Icon: Building2,       title: "Immobilier & Gestion",      desc: "Agences immobilières, syndics, promoteurs, gestionnaires de biens.",    tags: ["Finance", "Factures", "Exports"],        color: "#7F8C8D" },
 ];
 
 /* ── Pricing plans ── */
@@ -434,57 +434,75 @@ interface Plan {
 }
 const PLANS: Plan[] = [
   {
-    code: "STARTER", name: "Starter", price: "15 000", period: "FCFA / mois",
-    desc: "Parfait pour démarrer et gérer une activité solo ou en duo.",
+    code: "GRATUIT", name: "Gratuit", price: "0", period: "FCFA / mois",
+    desc: "Pour découvrir l'outil avec une petite activité.",
     color: "var(--navy)", popular: false,
-    cta: "Demander une démo", ctaStyle: "btn btn-outline-navy",
+    cta: "Demander un accès", ctaStyle: "btn btn-outline-navy",
     features: [
-      { label: "2 utilisateurs", included: true },
-      { label: "Ventes & Facturation", included: true },
-      { label: "Gestion des stocks", included: true },
-      { label: "Caisse basique", included: true },
-      { label: "Rapports simples", included: true },
-      { label: "Module Finance", included: false },
-      { label: "Gestion RH", included: false },
-      { label: "Multi-dépôts", included: false },
-      { label: "API ouverte", included: false },
-      { label: "Support prioritaire", included: false },
+      { label: "1 utilisateur", included: true },
+      { label: "50 produits, 30 factures / mois", included: true },
+      { label: "5 catégories, 5 fournisseurs", included: true },
+      { label: "Caisse, factures, stock, produits", included: true },
+      { label: "Fournisseurs et achats à crédit", included: true },
+      { label: "Module Finance (SdR, MCV)", included: true },
+      { label: "Alertes de stock", included: true },
+      { label: "Exports PDF / Excel", included: false },
+      { label: "Marketing et relances", included: false },
+      { label: "Journal d'audit", included: false },
     ],
   },
   {
-    code: "BUSINESS", name: "Pro", price: "35 000", period: "FCFA / mois",
-    desc: "La solution complète pour les PME en croissance qui veulent piloter.",
+    code: "STARTER", name: "Starter", price: "15 000", period: "FCFA / mois",
+    desc: "Pour une petite équipe qui facture tous les jours.",
+    color: "var(--navy)", popular: false,
+    cta: "Demander une démo", ctaStyle: "btn btn-outline-navy",
+    features: [
+      { label: "3 utilisateurs", included: true },
+      { label: "200 produits, factures illimitées", included: true },
+      { label: "20 catégories, 20 fournisseurs", included: true },
+      { label: "Caisse, factures, stock, produits", included: true },
+      { label: "Fournisseurs et achats à crédit", included: true },
+      { label: "Module Finance (SdR, MCV)", included: true },
+      { label: "Alertes de stock", included: true },
+      { label: "Exports PDF / Excel", included: true },
+      { label: "Marketing et relances", included: true },
+      { label: "Journal d'audit", included: true },
+    ],
+  },
+  {
+    code: "BUSINESS", name: "Business", price: "35 000", period: "FCFA / mois",
+    desc: "Pour les PME en croissance, sans limite de catalogue.",
     color: "var(--gold)", popular: true,
     cta: "Demander une démo", ctaStyle: "btn btn-shimmer btn-primary",
     features: [
       { label: "10 utilisateurs", included: true },
-      { label: "Ventes & Facturation", included: true },
-      { label: "Gestion des stocks avancée", included: true },
-      { label: "Caisse complète", included: true },
-      { label: "Rapports & tableaux de bord", included: true },
+      { label: "Produits et factures illimités", included: true },
+      { label: "Catégories et fournisseurs illimités", included: true },
+      { label: "Caisse, factures, stock, produits", included: true },
+      { label: "Fournisseurs et achats à crédit", included: true },
       { label: "Module Finance (SdR, MCV)", included: true },
-      { label: "Gestion RH & congés", included: true },
-      { label: "3 dépôts / succursales", included: true },
-      { label: "API ouverte", included: false },
-      { label: "Support prioritaire 24h", included: true },
+      { label: "Alertes de stock", included: true },
+      { label: "Exports PDF / Excel", included: true },
+      { label: "Marketing et relances", included: true },
+      { label: "Journal d'audit", included: true },
     ],
   },
   {
     code: "ENTERPRISE", name: "Enterprise", price: "Sur devis", period: "personnalisé",
-    desc: "Pour les groupes, multi-sites et entreprises à besoins spécifiques.",
+    desc: "Pour les grandes structures : tarif et accompagnement sur mesure.",
     color: "var(--navy-d)", popular: false,
     cta: "Nous contacter", ctaStyle: "btn btn-navy",
     features: [
       { label: "Utilisateurs illimités", included: true },
-      { label: "Ventes & Facturation", included: true },
-      { label: "Gestion des stocks illimitée", included: true },
-      { label: "Caisse multi-caisses", included: true },
-      { label: "BI & rapports sur mesure", included: true },
-      { label: "Module Finance avancé", included: true },
-      { label: "RH, paie & présences", included: true },
-      { label: "Multi-sites illimités", included: true },
-      { label: "API ouverte + webhooks", included: true },
-      { label: "Support dédié + formation", included: true },
+      { label: "Produits et factures illimités", included: true },
+      { label: "Catégories et fournisseurs illimités", included: true },
+      { label: "Caisse, factures, stock, produits", included: true },
+      { label: "Fournisseurs et achats à crédit", included: true },
+      { label: "Module Finance (SdR, MCV)", included: true },
+      { label: "Alertes de stock", included: true },
+      { label: "Exports PDF / Excel", included: true },
+      { label: "Marketing et relances", included: true },
+      { label: "Journal d'audit", included: true },
     ],
   },
 ];
@@ -815,7 +833,7 @@ export default function HomePage() {
                   <Link to="/contact" className={plan.ctaStyle}>
                     {plan.popular ? <><ArrowRight size={16} /> {plan.cta}</> : plan.cta}
                   </Link>
-                  {plan.name === "Starter" && (
+                  {plan.code === "STARTER" && (
                     <p className="pricing-note">Démo gratuite, sans engagement</p>
                   )}
                 </div>

@@ -900,8 +900,8 @@ section[id] { scroll-margin-top: 84px; }
    ════════════════════════════════════════════════════════════════ */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
   align-items: start;
   margin-bottom: 36px;
 }
@@ -966,7 +966,7 @@ section[id] { scroll-margin-top: 84px; }
 .feat-minus { color: rgba(255,255,255,.2); flex-shrink: 0; }
 
 .pricing-footer { margin-top: auto; }
-.pricing-footer .btn { width: 100%; justify-content: center; }
+.pricing-footer .btn { width: 100%; justify-content: center; white-space: nowrap; }
 .btn-outline-navy {
   background: transparent; color: rgba(255,255,255,.75);
   border: 1.5px solid rgba(255,255,255,.22);
@@ -998,7 +998,7 @@ section[id] { scroll-margin-top: 84px; }
   .footer-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
   .footer-grid .footer-col:first-child { grid-column: 1 / -1; }
   .modules-grid { grid-template-columns: repeat(3, 1fr); }
-  .pricing-grid { grid-template-columns: 1fr; gap: 18px; max-width: 440px; margin-left: auto; margin-right: auto; }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; max-width: 760px; margin-left: auto; margin-right: auto; }
   .pricing-card--popular { transform: none; }
   .sectors-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1068,7 +1068,7 @@ section[id] { scroll-margin-top: 84px; }
   .sectors-cta .btn { width: 100%; justify-content: center; }
 
   /* Pricing */
-  .pricing-grid { max-width: 100%; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
   .pricing-card { padding: 24px 20px; }
   .pricing-amount { font-size: 2rem; }
 
