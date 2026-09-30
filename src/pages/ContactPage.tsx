@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  MapPin, Phone, Mail, Clock, Send, Loader2, CheckCircle2,
+  MapPin, Phone, Mail, Clock, Send, Loader2, AlertCircle,
   ChevronRight, MessageSquare, Handshake, Wrench, HelpCircle,
 } from "lucide-react";
 import type { ContactFormData } from "../types";
-import { PHONE_DISPLAY, PHONE_TEL, PHONE_WA, EMAIL, WEB3FORMS_ACCESS_KEY, API_URL } from "../constants";
+import { PHONE_DISPLAY, PHONE_TEL, PHONE_WA, EMAIL, ADDRESS, WEB3FORMS_ACCESS_KEY, API_URL } from "../constants";
 import { asset } from "../lib/asset";
 
 const CATEGORIES: { value: ContactFormData["category"]; label: string }[] = [
@@ -26,11 +26,12 @@ function validate(data: ContactFormData): Errors {
   if (!data.subject.trim()) e.subject = "L'objet est requis";
   if (!data.body.trim())    e.body = "Le message est requis";
   else if (data.body.trim().length < 20) e.body = "Message trop court (min. 20 caractères)";
+  else if (data.body.length > 1000) e.body = "Message trop long (max. 1000 caractères)";
   return e;
 }
 
 const CONTACT_INFO = [
-  { Icon: MapPin,  strong: "Adresse",        span: "Ziguinchor, Sénégal" },
+  { Icon: MapPin,  strong: "Adresse",        span: ADDRESS },
   { Icon: Phone,   strong: "Téléphone",       span: PHONE_DISPLAY, href: `tel:${PHONE_TEL}` },
   { Icon: Mail,    strong: "Email",           span: EMAIL, href: `mailto:${EMAIL}` },
   { Icon: Clock,   strong: "Disponibilité",   span: "Lun–Ven, 8h–18h" },
@@ -58,8 +59,9 @@ export default function ContactPage() {
   const [form, setForm]     = useState<ContactFormData>(INITIAL);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
-  const [sent, setSent]     = useState(false);
+  const [failed, setFailed] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => { topRef.current?.scrollIntoView({ behavior: "smooth" }); }, []);
 
@@ -70,15 +72,20 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate(form);
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      // Amène le curseur sur le premier champ en erreur.
+      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
+      return;
+    }
     setErrors({});
+    setFailed(false);
     setSending(true);
 
-    if (piege) { setSending(false); setSent(true); return; } // robot : on n'envoie rien
+    if (piege) { navigate("/merci"); return; } // robot : on n'envoie rien
 
     // Envoi en parallèle : à l'application (Super-admin › Demandes d'essai) et
-    // par email (Web3Forms). Si les deux échouent, on bascule sur la messagerie
-    // du visiteur pour que le message parte quand même.
+    // par email (Web3Forms). Il suffit que l'un des deux réussisse.
     const avecDelai = (url: string, body: unknown) => {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 6000);
@@ -111,21 +118,28 @@ export default function ContactPage() {
       .then(({ ok, data }) => { if (!ok || !data.success) throw new Error("web3forms"); });
 
     const resultats = await Promise.allSettled([versApp, parEmail]);
-    if (resultats.every((r) => r.status === "rejected")) {
-      const body = `Nom : ${form.name}\nEmail : ${form.email}\nTéléphone : ${form.phone || "—"}\nCatégorie : ${form.category}\n\n${form.body}`;
-      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`;
-    }
-
     setSending(false);
-    setSent(true);
-    setTimeout(() => navigate("/"), 1800);
+    if (resultats.every((r) => r.status === "rejected")) { setFailed(true); return; }
+    navigate("/merci");
+  };
+
+  // Si tout a échoué, le message saisi est conservé dans ce lien.
+  const mailtoSecours = () => {
+    const body = `Nom : ${form.name}\nEmail : ${form.email}\nTéléphone : ${form.phone || "—"}\nCatégorie : ${form.category}\n\n${form.body}`;
+    return `mailto:${EMAIL}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`;
   };
 
   const field = (key: keyof ContactFormData) => ({
+    id: `f-${key}`,
+    name: key,
     value: form[key],
     onChange: set(key),
     className: errors[key] ? "error" : "",
+    "aria-invalid": errors[key] ? true : undefined,
+    "aria-describedby": errors[key] ? `f-${key}-err` : undefined,
   });
+  const err = (key: keyof ContactFormData) =>
+    errors[key] && <div className="form-error" id={`f-${key}-err`} role="alert">{errors[key]}</div>;
 
   const CatIcon = CAT_ICONS[form.category];
 
@@ -154,79 +168,80 @@ export default function ContactPage() {
                 Tous les champs marqués <span style={{ color: "#dc2626" }}>*</span> sont obligatoires.
               </p>
 
-              {sent ? (
-                <div className="form-success">
-                  <CheckCircle2 size={36} color="#16a34a" style={{ flexShrink: 0 }} />
+              {failed && (
+                <div className="form-failure" role="alert">
+                  <AlertCircle size={20} style={{ flexShrink: 0 }} />
                   <div>
-                    <h3>Message envoyé avec succès !</h3>
-                    <p>Merci pour votre message. Notre équipe vous répondra sous 24 heures ouvrables.</p>
-                    <button className="btn btn-navy btn-sm" style={{ marginTop: "14px" }} onClick={() => { setSent(false); setForm(INITIAL); }}>
-                      Envoyer un autre message
-                    </button>
+                    <strong>L'envoi n'a pas abouti.</strong> Vérifiez votre connexion puis réessayez, ou envoyez-nous
+                    votre message <a href={mailtoSecours()}>par e-mail</a> ou sur{" "}
+                    <a href={`https://wa.me/${PHONE_WA}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
                   </div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate>
-                  <input
-                    type="text" name="website" value={piege} onChange={(e) => setPiege(e.target.value)}
-                    tabIndex={-1} autoComplete="off" aria-hidden="true"
-                    style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
-                  />
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>Nom complet <span className="req">*</span></label>
-                      <input type="text" placeholder="Prénom Nom" {...field("name")} />
-                      {errors.name && <div className="form-error">{errors.name}</div>}
-                    </div>
-                    <div className="form-group">
-                      <label>Adresse email <span className="req">*</span></label>
-                      <input type="email" placeholder="vous@example.com" {...field("email")} />
-                      {errors.email && <div className="form-error">{errors.email}</div>}
-                    </div>
-                  </div>
-
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label>Téléphone <span style={{ color: "var(--muted)", fontWeight: 400 }}>(optionnel)</span></label>
-                      <input type="tel" placeholder="+221 77 000 00 00" {...field("phone")} />
-                    </div>
-                    <div className="form-group">
-                      <label>Catégorie <span className="req">*</span></label>
-                      <select {...field("category")}>
-                        {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Objet <span className="req">*</span></label>
-                    <input type="text" placeholder="Ex : Demande de démonstration pour 5 utilisateurs" {...field("subject")} />
-                    {errors.subject && <div className="form-error">{errors.subject}</div>}
-                  </div>
-
-                  <div className="form-group">
-                    <label>Message <span className="req">*</span></label>
-                    <textarea
-                      placeholder="Décrivez votre besoin, votre activité, le nombre d'utilisateurs…"
-                      rows={5}
-                      {...field("body")}
-                    />
-                    <div className="char-count">{form.body.length} / 1000 caractères</div>
-                    {errors.body && <div className="form-error">{errors.body}</div>}
-                  </div>
-
-                  <div className="form-submit">
-                    <button type="submit" className="btn btn-primary" disabled={sending}>
-                      {sending ? (
-                        <><Loader2 size={16} className="spin" /> Envoi en cours…</>
-                      ) : (
-                        <><Send size={16} /> Envoyer le message</>
-                      )}
-                    </button>
-                    <span style={{ fontSize: ".78rem", color: "var(--muted)" }}>Réponse sous 24h ouvrables</span>
-                  </div>
-                </form>
               )}
+              <form ref={formRef} onSubmit={handleSubmit} noValidate aria-busy={sending}>
+                <input
+                  type="text" name="website" value={piege} onChange={(e) => setPiege(e.target.value)}
+                  tabIndex={-1} autoComplete="off" aria-hidden="true"
+                  style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
+                />
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="f-name">Nom complet <span className="req">*</span></label>
+                    <input type="text" placeholder="Prénom Nom" autoComplete="name" maxLength={120} {...field("name")} />
+                    {err("name")}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="f-email">Adresse email <span className="req">*</span></label>
+                    <input type="email" placeholder="vous@example.com" autoComplete="email" {...field("email")} />
+                    {err("email")}
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="f-phone">Téléphone <span style={{ color: "var(--muted)", fontWeight: 400 }}>(optionnel)</span></label>
+                    <input type="tel" placeholder="+221 77 000 00 00" autoComplete="tel" maxLength={30} {...field("phone")} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="f-category">Catégorie <span className="req">*</span></label>
+                    <select {...field("category")}>
+                      {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="f-subject">Objet <span className="req">*</span></label>
+                  <input type="text" placeholder="Ex : Demande de démonstration pour 5 utilisateurs" maxLength={150} {...field("subject")} />
+                  {err("subject")}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="f-body">Message <span className="req">*</span></label>
+                  <textarea
+                    placeholder="Décrivez votre besoin, votre activité, le nombre d'utilisateurs…"
+                    rows={5}
+                    {...field("body")}
+                  />
+                  <div className="char-count">{form.body.length} / 1000 caractères</div>
+                  {err("body")}
+                </div>
+
+                <div className="form-submit">
+                  <button type="submit" className="btn btn-primary" disabled={sending}>
+                    {sending ? (
+                      <><Loader2 size={16} className="spin" /> Envoi en cours…</>
+                    ) : (
+                      <><Send size={16} /> Envoyer le message</>
+                    )}
+                  </button>
+                  <span style={{ fontSize: ".78rem", color: "var(--muted)" }}>Réponse sous 24h ouvrables</span>
+                </div>
+                <p className="form-privacy">
+                  Vos informations servent uniquement à vous répondre.{" "}
+                  <Link to="/confidentialite">Politique de confidentialité</Link>
+                </p>
+              </form>
             </div>
 
             {/* ── Sidebar ── */}
@@ -262,7 +277,7 @@ export default function ContactPage() {
                   {form.category === "commercial"  && "Parler à un commercial"}
                   {form.category === "technique"   && "Contacter le support"}
                   {form.category === "partenariat" && "Discuter d'un partenariat"}
-                  {form.category === "autre"       && "Nous rejoindre sur les réseaux"}
+                  {form.category === "autre"       && "Nous joindre directement"}
                 </h3>
                 <p style={{ color: "rgba(255,255,255,.6)", fontSize: ".85rem", marginBottom: "16px" }}>
                   Réponse la plus rapide : appelez-nous, écrivez-nous ou envoyez un message WhatsApp.
@@ -282,15 +297,6 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                   >
                     <img src={asset("/social/whatsapp.svg")} width={16} height={16} alt="" />
-                  </a>
-                  <a href="#" className="social-link social-link--brand" aria-label="Instagram">
-                    <img src={asset("/social/instagram.svg")} width={16} height={16} alt="" />
-                  </a>
-                  <a href="#" className="social-link social-link--brand" aria-label="LinkedIn">
-                    <img src={asset("/social/linkedin.svg")} width={16} height={16} alt="" />
-                  </a>
-                  <a href="#" className="social-link social-link--brand" aria-label="TikTok">
-                    <img src={asset("/social/tiktok.svg")} width={15} height={15} alt="" />
                   </a>
                 </div>
               </div>

@@ -381,24 +381,18 @@ const MODULES: { Icon: Icon; title: string; desc: string; tag: string }[] = [
 ];
 
 const TRUST: { Icon: Icon; txt: string }[] = [
-  { Icon: Lock,       txt: "Données hébergées localement" },
-  { Icon: Zap,        txt: "Accès instantané hors ligne" },
-  { Icon: Shield,     txt: "Sauvegarde automatique" },
-  { Icon: Smartphone, txt: "Interface responsive" },
-  { Icon: Target,     txt: "Formation incluse" },
+  { Icon: Lock,       txt: "Connexion chiffrée (HTTPS)" },
+  { Icon: Zap,        txt: "100 % web, sans installation" },
+  { Icon: Shield,     txt: "Sauvegarde quotidienne des données" },
+  { Icon: Smartphone, txt: "Ordinateur, tablette et mobile" },
+  { Icon: Target,     txt: "Accompagnement à la prise en main" },
 ];
 
 const STEPS = [
-  { n: "1", title: "Créez votre compte",       desc: "Inscription en 2 minutes, paramétrez votre entreprise et vos utilisateurs." },
+  { n: "1", title: "Demandez votre accès",     desc: "Après une courte démo, nous créons l'espace de votre entreprise et vos utilisateurs." },
   { n: "2", title: "Importez vos données",     desc: "Produits, clients, stocks existants — migration assistée sans effort." },
   { n: "3", title: "Pilotez en temps réel",    desc: "Tableaux de bord, alertes, rapports — l'info au bon moment." },
   { n: "4", title: "Développez sereinement",   desc: "Vos indicateurs guident vos décisions pour une croissance maîtrisée." },
-];
-
-const TESTIS = [
-  { quote: "Depuis GPME-MT, nos inventaires sont clôturés en 30 minutes contre 2 jours avant. Le module caisse est juste parfait.", name: "Aissatou D.", role: "Directrice, Boutique Soleil", initials: "AD" },
-  { quote: "L'analyse financière m'a aidé à trouver mon seuil de rentabilité exact. J'ai pu négocier mon crédit bancaire avec des chiffres solides.", name: "Mamadou K.", role: "Gérant, MKTech Dakar", initials: "MK" },
-  { quote: "Interface intuitive, support réactif. On a formé notre équipe en une demi-journée. Un vrai game-changer pour notre PME.", name: "Fatou N.", role: "DAF, Groupe Ndiaye & Fils", initials: "FN" },
 ];
 
 const FINANCE_ITEMS = [
@@ -502,14 +496,6 @@ function prixAffiche(plan: Plan, prixApp: ReturnType<typeof usePrixPlans>): stri
   return prix === null || prix === undefined ? "Sur devis" : new Intl.NumberFormat("fr-FR").format(prix).replace(/\u202f/g, " ");
 }
 
-const WHY_CONTACT = [
-  "Demande de démonstration personnalisée",
-  "Devis pour votre équipe",
-  "Questions sur les fonctionnalités",
-  "Support technique ou formation",
-  "Proposition de partenariat",
-];
-
 export default function HomePage() {
   const prixApp = usePrixPlans();
   const heroRef    = useRef<HTMLDivElement>(null);
@@ -519,7 +505,6 @@ export default function HomePage() {
   const howRef     = useFadeUp();
   const finRef     = useFadeUp();
   const pricingRef = useFadeUp();
-  const testiRef   = useFadeUp();
   const ctaRef     = useFadeUp();
 
   useEffect(() => {
@@ -567,9 +552,13 @@ export default function HomePage() {
                 </a>
               </div>
               <div className="hero-stats fade-up delay-4">
-                {[{ n: 500, sfx: "+", lbl: "PME équipées" }, { n: 98, sfx: "%", lbl: "Satisfaction client" }, { n: 12, sfx: "", lbl: "Modules intégrés" }].map(({ n, sfx, lbl }) => (
+                <div>
+                  <div className="hero-stat-num"><Counter target={12} suffix="" /></div>
+                  <div className="hero-stat-label">Modules intégrés</div>
+                </div>
+                {[["100 %", "Web, sans installation"], ["24 h", "Délai de réponse du support"]].map(([val, lbl]) => (
                   <div key={lbl}>
-                    <div className="hero-stat-num"><Counter target={n} suffix={sfx} /></div>
+                    <div className="hero-stat-num">{val}</div>
                     <div className="hero-stat-label">{lbl}</div>
                   </div>
                 ))}
@@ -827,7 +816,7 @@ export default function HomePage() {
                     {plan.popular ? <><ArrowRight size={16} /> {plan.cta}</> : plan.cta}
                   </Link>
                   {plan.name === "Starter" && (
-                    <p className="pricing-note">14 jours d'essai gratuit, sans CB</p>
+                    <p className="pricing-note">Démo gratuite, sans engagement</p>
                   )}
                 </div>
               </div>
@@ -836,29 +825,6 @@ export default function HomePage() {
           <div className="pricing-info fade-up">
             <Crown size={16} color="var(--gold)" />
             <span>Tous les plans incluent les mises à jour, la sécurité et les sauvegardes automatiques.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Testimonials ── */}
-      <section className="section-light sec" id="testimonials" ref={testiRef}>
-        <div className="container">
-          <div className="section-head fade-up">
-            <span className="badge"><Users size={13} /> Témoignages</span>
-            <h2>Ils font confiance à GPME-MT</h2>
-            <p>Des centaines d'entrepreneurs ont transformé leur gestion. Découvrez leurs expériences.</p>
-          </div>
-          <div className="testi-grid">
-            {TESTIS.map((t, i) => (
-              <div className={`testi-card fade-up delay-${i + 1}`} key={t.name}>
-                <div className="testi-stars">★★★★★</div>
-                <p className="testi-text">"{t.quote}"</p>
-                <div className="testi-author">
-                  <div className="testi-avatar">{t.initials}</div>
-                  <div><div className="testi-name">{t.name}</div><div className="testi-role">{t.role}</div></div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -878,10 +844,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Why contact ── (hidden section used in contact page sidebar) */}
-      <div style={{ display: "none" }}>
-        {WHY_CONTACT.map((item) => <span key={item}>{item}</span>)}
-      </div>
     </>
   );
 }

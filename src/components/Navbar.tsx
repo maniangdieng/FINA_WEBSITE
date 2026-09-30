@@ -57,7 +57,6 @@ export default function Navbar() {
             <button className="nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
             <button className="nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
             <button className="nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
-            <button className="nav-link nav-btn" onClick={() => scrollTo("testimonials")}>Avis</button>
             <NavLink to="/contact" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>Contact</NavLink>
           </div>
 
@@ -70,7 +69,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <button className="hamburger" onClick={() => setOpen((o) => !o)} aria-label="Menu">
+          <button className="hamburger" onClick={() => setOpen((o) => !o)} aria-label="Menu" aria-expanded={open} aria-controls="mobile-menu">
             <span style={open ? { transform: "rotate(45deg) translateY(7px)" } : {}} />
             <span style={open ? { opacity: 0 } : {}} />
             <span style={open ? { transform: "rotate(-45deg) translateY(-7px)" } : {}} />
@@ -78,11 +77,10 @@ export default function Navbar() {
         </div>
 
         {/* Mobile menu */}
-        <div className={`mobile-menu${open ? " open" : ""}`}>
+        <div id="mobile-menu" className={`mobile-menu${open ? " open" : ""}`}>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
-          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("testimonials")}>Avis</button>
           <NavLink to="/contact" className="mobile-nav-link">Contact</NavLink>
           <a href={`${APP_URL}/login`} className="mobile-nav-link">Se connecter</a>
           <Link to="/contact" className="btn btn-primary" style={{ marginTop: "8px", justifyContent: "center" }}>

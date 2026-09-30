@@ -1,34 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import { Users, TrendingUp, Code2, RotateCw, Target } from "lucide-react";
 import { useFadeUp } from "../hooks/useFadeUp";
-import Counter from "../components/Counter";
 import { asset } from "../lib/asset";
 
 const IMPACT = [
-  { n: 500, sfx: "+", lbl: "PME équipées" },
-  { n: 98,  sfx: "%", lbl: "Satisfaction client" },
-  { n: 12,  sfx: "",  lbl: "Modules intégrés" },
+  { val: "12",    lbl: "Modules intégrés" },
+  { val: "100 %", lbl: "Web, sans installation" },
+  { val: "24 h",  lbl: "Délai de réponse du support" },
 ];
 
 const TEAM: { name: string; initials: string; role: string; bio: string; icon: typeof TrendingUp; photo?: string }[] = [
   {
-    name: " Bassirou Abdou Khoudoss MBOUP ", initials: "SM", role: "Marketing & Finance", icon: TrendingUp,
-    photo: "/team/BASS.jpeg",
+    name: "Bassirou Abdou Khoudoss MBOUP", initials: "BM", role: "Marketing & Finance", icon: TrendingUp,
+    photo: "/team/bass.webp",
     bio: "Contribue à la stratégie marketing et financière de Finavators.",
   },
   {
     name: "Moussa SEIDI", initials: "M", role: "Marketing & Finance", icon: TrendingUp,
-    photo: "/team/moussa.jpeg",
+    photo: "/team/moussa.webp",
     bio: "Accompagne le développement commercial et financier de l'entreprise.",
   },
   {
-    name: "Yaya DRAME ", initials: "YD", role: "Développement", icon: Code2,
-    photo: "/team/yaks.jpeg",
+    name: "Yaya DRAME", initials: "YD", role: "Développement", icon: Code2,
+    photo: "/team/yaks.webp",
     bio: "Participe à la conception et au développement de la plateforme.",
   },
   {
     name: "Maniang DIENG", initials: "MD", role: "Développement", icon: Code2,
-    photo: "/team/magns.jpeg",
+    photo: "/team/magns.webp",
     bio: "Contribue à la conception et au développement du produit.",
   },
 ];
@@ -70,9 +69,9 @@ export default function TeamPage() {
             </p>
           </div>
           <div className="mission-stats fade-up delay-2">
-            {IMPACT.map(({ n, sfx, lbl }) => (
+            {IMPACT.map(({ val, lbl }) => (
               <div className="mission-stat" key={lbl}>
-                <div className="hero-stat-num"><Counter target={n} suffix={sfx} /></div>
+                <div className="hero-stat-num">{val}</div>
                 <div className="hero-stat-label">{lbl}</div>
               </div>
             ))}
@@ -105,7 +104,7 @@ export default function TeamPage() {
                     {/* Front */}
                     <div className="team-face team-face-front">
                       {m.photo ? (
-                        <img src={asset(m.photo)} alt="" className="team-face-photo" />
+                        <img src={asset(m.photo)} alt={`Portrait de ${m.name}`} className="team-face-photo" loading="lazy" width={600} height={600} />
                       ) : (
                         <div className="team-face-monogram">
                           <span className="team-mono-letter">{m.initials[0]}</span>

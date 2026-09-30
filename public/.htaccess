@@ -1,27 +1,57 @@
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
 <IfModule mod_headers.c>
-  # Empêche Chrome de scroller automatiquement vers un passage de texte
-  # (Scroll-to-Text-Fragment, #:~:text=...) que Google ajoute parfois aux
-  # liens de résultats de recherche — sinon un clic peut atterrir n'importe
-  # où sur la page (ex: le footer) au lieu du haut.
+  # ── Sécurité ──────────────────────────────────────────────────────
+  # HTTPS obligatoire pendant 1 an (pas includeSubDomains : certains
+  # sous-domaines de messagerie ne sont pas en HTTPS).
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  # Ce que la page a le droit de charger : le site lui-même, l'API de
+  # l'application (prix, demandes d'essai), Web3Forms (e-mail du formulaire)
+  # et Google Analytics (seulement après consentement, voir analytics.ts).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://api.finavators.com https://api.web3forms.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+  # Empêche Chrome de scroller vers un passage de texte (#:~:text=...)
+  # ajouté par Google aux liens de résultats de recherche.
   Header always set Document-Policy "force-load-at-top"
+
+  # ── Cache ─────────────────────────────────────────────────────────
+  # Fichiers de build avec empreinte dans le nom : jamais modifiés.
+  <FilesMatch "^index-[A-Za-z0-9_-]+\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(woff2|png|webp|jpe?g|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  # Pages HTML : toujours revalidées, pour voir chaque mise à jour.
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Une seule URL canonique : https://www.finavators.com — sinon
-  # http://finavators.com, https://finavators.com, etc. sont indexés comme
-  # des sites séparés avec le même contenu (contenu dupliqué pour Google).
+  # Une seule URL canonique : https://www.finavators.com
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} !^www\. [NC]
   RewriteRule ^ https://www.finavators.com%{REQUEST_URI} [L,R=301]
 
-  # Sers les vrais fichiers (JS, CSS, images, robots.txt, sitemap.xml...) tels quels
+  # Fichiers réels (JS, CSS, images, robots.txt, sitemap.xml...) servis tels quels.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Toute autre route (ex: /contact, /equipe) est gérée par React Router côté client
-  RewriteRule ^ index.html [L]
+  # /contact -> contact.html (généré par scripts/prerender.mjs).
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([a-z0-9-]+)/?$ $1.html [L]
+
+  # Tout le reste : vraie erreur 404 (ErrorDocument ci-dessus).
 </IfModule>

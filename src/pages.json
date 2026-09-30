@@ -1,0 +1,42 @@
+{
+  "/": {
+    "title": "Finavators · GPME-MT — Logiciel de gestion pour PME africaines",
+    "description": "GPME-MT centralise ventes, stock, caisse et finances de votre PME dans un seul outil web. Démo gratuite et sans engagement.",
+    "priority": "1.0"
+  },
+  "/contact": {
+    "title": "Contact et démo gratuite — Finavators",
+    "description": "Demandez une démonstration gratuite de GPME-MT ou posez vos questions à l'équipe Finavators. Réponse sous 24 h ouvrables.",
+    "priority": "0.8"
+  },
+  "/equipe": {
+    "title": "L'équipe Finavators",
+    "description": "Découvrez l'équipe qui conçoit GPME-MT, le logiciel de gestion commerciale pensé pour les PME africaines.",
+    "priority": "0.6"
+  },
+  "/confidentialite": {
+    "title": "Politique de confidentialité — Finavators",
+    "description": "Quelles données le site finavators.com collecte, pourquoi, combien de temps, et comment exercer vos droits.",
+    "priority": "0.3"
+  },
+  "/conditions": {
+    "title": "Conditions d'utilisation — Finavators",
+    "description": "Conditions générales d'utilisation du site finavators.com.",
+    "priority": "0.3"
+  },
+  "/mentions-legales": {
+    "title": "Mentions légales — Finavators",
+    "description": "Éditeur, hébergeurs et contact du site finavators.com.",
+    "priority": "0.3"
+  },
+  "/merci": {
+    "title": "Message envoyé — Finavators",
+    "description": "Merci pour votre message. L'équipe Finavators vous répond sous 24 h ouvrables.",
+    "noindex": true
+  },
+  "/404": {
+    "title": "Page introuvable — Finavators",
+    "description": "Cette page n'existe pas ou a été déplacée.",
+    "noindex": true
+  }
+}

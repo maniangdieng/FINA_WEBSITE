@@ -6,8 +6,14 @@ import GlobalAnimatedBg from "./components/GlobalAnimatedBg";
 import HomePage from "./pages/HomePage";
 import ContactPage from "./pages/ContactPage";
 import TeamPage from "./pages/TeamPage";
+import MerciPage from "./pages/MerciPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import { MentionsLegalesPage, ConfidentialitePage, ConditionsPage } from "./pages/LegalPages";
+import Seo from "./components/Seo";
+import CookieBanner from "./components/CookieBanner";
+import StickyCta from "./components/StickyCta";
 
-const SECTION_IDS = ["features", "modules", "sectors", "how", "pricing", "testimonials", "cta"];
+const SECTION_IDS = ["features", "modules", "sectors", "how", "pricing", "cta"];
 
 // Google search results sometimes link to a text passage found anywhere on
 // the page (e.g. the footer's boilerplate paragraph, repeated on every
@@ -26,16 +32,10 @@ function ScrollGuard() {
   return null;
 }
 
-// The static index.html always ships a canonical tag pointing at the home
-// page (there's no per-route HTML to hardcode a different one into). Point
-// it at whatever route actually loaded, so /contact and /equipe don't read
-// to Google as duplicates of the home page.
-function CanonicalTag() {
-  const location = useLocation();
-  useEffect(() => {
-    const link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (link) link.href = `https://www.finavators.com${location.pathname}`;
-  }, [location.pathname]);
+// Une navigation interne doit repartir du haut de la nouvelle page.
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { if (!window.location.hash) window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
 
@@ -43,7 +43,8 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ScrollGuard />
-      <CanonicalTag />
+      <Seo />
+      <ScrollToTop />
       <GlobalAnimatedBg />
       <Navbar />
       <main>
@@ -51,9 +52,16 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/equipe" element={<TeamPage />} />
+          <Route path="/merci" element={<MerciPage />} />
+          <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+          <Route path="/confidentialite" element={<ConfidentialitePage />} />
+          <Route path="/conditions" element={<ConditionsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
+      <StickyCta />
+      <CookieBanner />
     </BrowserRouter>
   );
 }

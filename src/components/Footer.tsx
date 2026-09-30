@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { Globe } from "lucide-react";
-import { PHONE_WA } from "../constants";
+import { PHONE_WA, PHONE_DISPLAY, PHONE_TEL, EMAIL, ADDRESS, GA_MEASUREMENT_ID } from "../constants";
 import { asset } from "../lib/asset";
+import { OPEN_BANNER_EVENT } from "../lib/analytics";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -38,15 +39,6 @@ export default function Footer() {
               >
                 <img src={asset("/social/whatsapp.svg")} width={16} height={16} alt="" />
               </a>
-              <a href="#" className="social-link social-link--brand" aria-label="Instagram">
-                <img src={asset("/social/instagram.svg")} width={16} height={16} alt="" />
-              </a>
-              <a href="#" className="social-link social-link--brand" aria-label="LinkedIn">
-                <img src={asset("/social/linkedin.svg")} width={16} height={16} alt="" />
-              </a>
-              <a href="#" className="social-link social-link--brand" aria-label="TikTok">
-                <img src={asset("/social/tiktok.svg")} width={15} height={15} alt="" />
-              </a>
             </div>
           </div>
 
@@ -58,7 +50,6 @@ export default function Footer() {
               <li><a href="#sectors" onClick={scrollTo("sectors")}>Secteurs</a></li>
               <li><a href="#pricing" onClick={scrollTo("pricing")}>Tarifs</a></li>
               <li><a href="#how" onClick={scrollTo("how")}>Comment ça marche</a></li>
-              <li><a href="#testimonials" onClick={scrollTo("testimonials")}>Témoignages</a></li>
             </ul>
           </div>
 
@@ -72,10 +63,27 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h4>Support</h4>
+            <h4>Contact</h4>
             <ul>
-              <li><Link to="/contact">Assistance</Link></li>
+              <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+              <li><a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a></li>
+              <li>{ADDRESS}</li>
+            </ul>
+          </div>
 
+          <div className="footer-col">
+            <h4>Informations légales</h4>
+            <ul>
+              <li><Link to="/mentions-legales">Mentions légales</Link></li>
+              <li><Link to="/confidentialite">Confidentialité</Link></li>
+              <li><Link to="/conditions">Conditions d'utilisation</Link></li>
+              {GA_MEASUREMENT_ID && (
+                <li>
+                  <button className="link-button" onClick={() => window.dispatchEvent(new Event(OPEN_BANNER_EVENT))}>
+                    Gérer les cookies
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>
