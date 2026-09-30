@@ -19,13 +19,13 @@ export const APP_URL = "https://app.finavators.com";
 export const API_URL = "https://api.finavators.com/api";
 
 // Identité légale de l'éditeur (mentions légales, confidentialité).
-// « À compléter » bloque le build (scripts/prerender.mjs) : impossible de
-// publier des pages légales incomplètes par erreur.
+// NINEA / RCCM vides = non affichés (entreprise en cours d'immatriculation).
+// « À compléter » bloque le build (scripts/prerender.mjs).
 export const LEGAL = {
-  raisonSociale: "À compléter",
-  formeJuridique: "À compléter",
-  ninea: "À compléter",
-  rccm: "À compléter",
-  siege: "À compléter",
-  directeurPublication: "À compléter",
+  raisonSociale: "Finavators",
+  formeJuridique: "projet en cours d'immatriculation au Sénégal",
+  ninea: "",
+  rccm: "",
+  siege: "Ziguinchor, Sénégal",
+  directeurPublication: "Maniang DIENG",
 };

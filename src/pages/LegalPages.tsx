@@ -29,7 +29,8 @@ export function MentionsLegalesPage() {
       <h2>Éditeur du site</h2>
       <p>
         {LEGAL.raisonSociale} ({LEGAL.formeJuridique})<br />
-        NINEA : {LEGAL.ninea} · RCCM : {LEGAL.rccm}<br />
+        {LEGAL.ninea && <>NINEA : {LEGAL.ninea}<br /></>}
+        {LEGAL.rccm && <>RCCM : {LEGAL.rccm}<br /></>}
         Siège : {LEGAL.siege}<br />
         E-mail : {mail} · Téléphone : {PHONE_DISPLAY}<br />
         Directeur de la publication : {LEGAL.directeurPublication}
