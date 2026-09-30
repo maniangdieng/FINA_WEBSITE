@@ -1173,3 +1173,12 @@ section[id] { scroll-margin-top: 84px; }
   .footer { padding-bottom: 96px; }
   .cookie-banner { bottom: 84px; }
 }
+
+/* ── Aperçu de l'assistant IA (section d'accueil) ── */
+.assist-bubble { max-width: 85%; padding: 10px 13px; border-radius: 14px; font-size: .82rem; line-height: 1.5; margin-top: 10px; }
+.assist-user { margin-left: auto; background: var(--gold); color: var(--navy-d); font-weight: 500; }
+.assist-bot { background: rgba(255,255,255,.08); color: rgba(255,255,255,.85); }
+.assist-bot strong { display: block; color: var(--white); margin-bottom: 2px; }
+.assist-actions { display: flex; gap: 8px; margin-top: 8px; }
+.assist-btn { padding: 4px 12px; border-radius: 8px; background: var(--gold); color: var(--navy-d); font-weight: 600; font-size: .75rem; }
+.assist-btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,.3); color: rgba(255,255,255,.85); }

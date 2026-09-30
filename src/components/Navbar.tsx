@@ -55,6 +55,7 @@ export default function Navbar() {
 
           <div className="navbar-links">
             <button className="nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
+            <button className="nav-link nav-btn" onClick={() => scrollTo("assistant")}>Assistant IA</button>
             <button className="nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
             <button className="nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
             <NavLink to="/contact" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>Contact</NavLink>
@@ -79,6 +80,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         <div id="mobile-menu" className={`mobile-menu${open ? " open" : ""}`}>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
+          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("assistant")}>Assistant IA</button>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
           <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
           <NavLink to="/contact" className="mobile-nav-link">Contact</NavLink>

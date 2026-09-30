@@ -395,6 +395,14 @@ const STEPS = [
   { n: "4", title: "Développez sereinement",   desc: "Vos indicateurs guident vos décisions pour une croissance maîtrisée." },
 ];
 
+const ASSISTANT_ITEMS = [
+  "« Combien il me reste de riz ? » : stock en direct",
+  "« Qui me doit de l'argent ? » : dettes clients par client",
+  "« Fais une facture pour Mamadou, 2 sacs de riz »",
+  "Rien n'est enregistré sans votre confirmation",
+  "Disponible sur tous les plans, en français",
+];
+
 const FINANCE_ITEMS = [
   "Seuil de rentabilité calculé en temps réel",
   "Marge sur coût variable par produit",
@@ -449,6 +457,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: false },
       { label: "Marketing et relances", included: false },
       { label: "Journal d'audit", included: false },
+      { label: "Assistant IA : 3 questions / jour", included: true },
     ],
   },
   {
@@ -467,6 +476,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
+      { label: "Assistant IA : 20 questions / jour", included: true },
     ],
   },
   {
@@ -485,6 +495,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
+      { label: "Assistant IA : 100 questions / jour", included: true },
     ],
   },
   {
@@ -503,6 +514,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
+      { label: "Assistant IA : 100 questions / jour", included: true },
     ],
   },
 ];
@@ -522,6 +534,7 @@ export default function HomePage() {
   const sectorsRef = useFadeUp();
   const howRef     = useFadeUp();
   const finRef     = useFadeUp();
+  const assistantRef = useFadeUp();
   const pricingRef = useFadeUp();
   const ctaRef     = useFadeUp();
 
@@ -553,7 +566,7 @@ export default function HomePage() {
               <div className="hero-eyebrow fade-up">
                 <span className="badge">
                   <Sparkles size={13} />
-                  Solution ERP nouvelle génération
+                  Nouveau : assistant IA intégré
                 </span>
               </div>
               <h1 className="fade-up delay-1">
@@ -677,6 +690,38 @@ export default function HomePage() {
                 <p>{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Assistant IA ── */}
+      <section className="section-mid sec" id="assistant" ref={assistantRef}>
+        <div className="container">
+          <div className="finance-grid">
+            <div className="finance-panel fade-left" aria-hidden="true">
+              <div className="finance-panel-title">Assistant GPME-MT</div>
+              <div className="assist-bubble assist-user">Fais une facture pour Mamadou : 2 sacs de riz</div>
+              <div className="assist-bubble assist-bot">
+                <strong>Action à confirmer</strong>
+                Facture pour Mamadou : 2 × Riz 25 kg à 15 000 FCFA. Total HT : 30 000 FCFA.
+                <span className="assist-actions"><span className="assist-btn">Confirmer</span><span className="assist-btn assist-btn-ghost">Annuler</span></span>
+              </div>
+              <div className="assist-bubble assist-user">Qui me doit de l'argent ?</div>
+              <div className="assist-bubble assist-bot">Awa Diop vous doit 45 400 FCFA (2 factures).</div>
+            </div>
+            <div className="finance-copy fade-right delay-2">
+              <span className="badge badge-dark" style={{ marginBottom: "14px" }}><Sparkles size={13} /> Nouveau</span>
+              <h2 style={{ color: "var(--white)" }}>Votre assistant IA, directement dans l'application</h2>
+              <p style={{ color: "rgba(255,255,255,.6)" }}>Posez vos questions en langage courant, comme à un collaborateur. L'assistant consulte vos données et prépare vos factures et opérations de caisse à votre place.</p>
+              <ul style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
+                {ASSISTANT_ITEMS.map((item) => (
+                  <li key={item} style={{ color: "rgba(255,255,255,.72)", borderColor: "rgba(255,255,255,.08)" }}>
+                    <Check size={14} style={{ color: "var(--gold)", flexShrink: 0 }} />{item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/contact" className="btn btn-shimmer btn-primary">Essayer l'assistant</Link>
+            </div>
           </div>
         </div>
       </section>

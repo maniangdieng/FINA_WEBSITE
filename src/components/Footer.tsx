@@ -46,6 +46,7 @@ export default function Footer() {
             <h4>Produit</h4>
             <ul>
               <li><a href="#features" onClick={scrollTo("features")}>Fonctionnalités</a></li>
+              <li><a href="#assistant" onClick={scrollTo("assistant")}>Assistant IA</a></li>
               <li><a href="#modules" onClick={scrollTo("modules")}>Modules</a></li>
               <li><a href="#sectors" onClick={scrollTo("sectors")}>Secteurs</a></li>
               <li><a href="#pricing" onClick={scrollTo("pricing")}>Tarifs</a></li>

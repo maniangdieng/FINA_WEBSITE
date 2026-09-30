@@ -13,7 +13,7 @@ import Seo from "./components/Seo";
 import CookieBanner from "./components/CookieBanner";
 import StickyCta from "./components/StickyCta";
 
-const SECTION_IDS = ["features", "modules", "sectors", "how", "pricing", "cta"];
+const SECTION_IDS = ["features", "assistant", "modules", "sectors", "how", "pricing", "cta"];
 
 // Google search results sometimes link to a text passage found anywhere on
 // the page (e.g. the footer's boilerplate paragraph, repeated on every
