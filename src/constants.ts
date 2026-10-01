@@ -32,8 +32,8 @@ export const LEGAL = {
 
 // Réseaux sociaux affichés dans le pied de page. Lien vide = icône masquée.
 export const SOCIAL = {
-  tiktok: "",
-  instagram: "",
+  tiktok: "https://www.tiktok.com/@finavators",
+  instagram: "https://www.instagram.com/finavators/",
   linkedin: "",
-  facebook: "",
+  facebook: "https://www.facebook.com/profile.php?id=61591807236501",
 };
