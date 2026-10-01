@@ -35,7 +35,7 @@ function FinanceBar({ pct, label, val }: { pct: number; label: string; val: stri
         <span className="finance-metric-val">{val}</span>
       </div>
       <div className="finance-metric-bar-bg">
-        <div className="finance-metric-bar" style={{ width: `${width}%` }} />
+        <div className="finance-metric-bar" style={{ transform: `scaleX(${width / 100})` }} />
       </div>
     </div>
   );
