@@ -145,7 +145,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: false },
       { label: "Marketing et relances", included: false },
       { label: "Journal d'audit", included: false },
-      { label: "Assistant IA : 3 questions / jour", included: true },
+      { label: "Assistant IA intégré", included: true },
     ],
   },
   {
@@ -163,7 +163,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
-      { label: "Assistant IA : 20 questions / jour", included: true },
+      { label: "Assistant IA intégré", included: true },
     ],
   },
   {
@@ -181,7 +181,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
-      { label: "Assistant IA : 100 questions / jour", included: true },
+      { label: "Assistant IA intégré", included: true },
     ],
   },
   {
@@ -199,7 +199,7 @@ const PLANS: Plan[] = [
       { label: "Exports PDF / Excel", included: true },
       { label: "Marketing et relances", included: true },
       { label: "Journal d'audit", included: true },
-      { label: "Assistant IA : 100 questions / jour", included: true },
+      { label: "Assistant IA intégré", included: true },
     ],
   },
 ];

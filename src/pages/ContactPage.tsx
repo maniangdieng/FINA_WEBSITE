@@ -192,7 +192,7 @@ export default function ContactPage() {
                   </div>
                   <div className="form-group">
                     <label htmlFor="f-email">Adresse email <span className="req">*</span></label>
-                    <input type="email" placeholder="vous@example.com" autoComplete="email" {...field("email")} />
+                    <input type="email" placeholder="vous@example.com" autoComplete="email" spellCheck={false} {...field("email")} />
                     {err("email")}
                   </div>
                 </div>

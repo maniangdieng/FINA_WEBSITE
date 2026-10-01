@@ -54,10 +54,10 @@ export default function Navbar() {
           </Link>
 
           <div className="navbar-links">
-            <button className="nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
-            <button className="nav-link nav-btn" onClick={() => scrollTo("assistant")}>Assistant IA</button>
-            <button className="nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
-            <button className="nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
+            <a href="/#features" className="nav-link" onClick={(e) => { e.preventDefault(); scrollTo("features"); }}>Fonctionnalités</a>
+            <a href="/#assistant" className="nav-link" onClick={(e) => { e.preventDefault(); scrollTo("assistant"); }}>Assistant IA</a>
+            <a href="/#sectors" className="nav-link" onClick={(e) => { e.preventDefault(); scrollTo("sectors"); }}>Secteurs</a>
+            <a href="/#pricing" className="nav-link" onClick={(e) => { e.preventDefault(); scrollTo("pricing"); }}>Tarifs</a>
             <NavLink to="/contact" className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}>Contact</NavLink>
           </div>
 
@@ -79,10 +79,10 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         <div id="mobile-menu" className={`mobile-menu${open ? " open" : ""}`}>
-          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("features")}>Fonctionnalités</button>
-          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("assistant")}>Assistant IA</button>
-          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("sectors")}>Secteurs</button>
-          <button className="mobile-nav-link nav-btn" onClick={() => scrollTo("pricing")}>Tarifs</button>
+          <a href="/#features" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollTo("features"); }}>Fonctionnalités</a>
+          <a href="/#assistant" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollTo("assistant"); }}>Assistant IA</a>
+          <a href="/#sectors" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollTo("sectors"); }}>Secteurs</a>
+          <a href="/#pricing" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollTo("pricing"); }}>Tarifs</a>
           <NavLink to="/contact" className="mobile-nav-link">Contact</NavLink>
           <a href={`${APP_URL}/login`} className="mobile-nav-link">Se connecter</a>
           <Link to="/contact" className="btn btn-primary" style={{ marginTop: "8px", justifyContent: "center" }}>

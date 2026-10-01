@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
-import ContactPage from "./pages/ContactPage";
-import TeamPage from "./pages/TeamPage";
-import MerciPage from "./pages/MerciPage";
-import NotFoundPage from "./pages/NotFoundPage";
-import { MentionsLegalesPage, ConfidentialitePage, ConditionsPage } from "./pages/LegalPages";
+// Pages secondaires chargées à la demande : l'accueil n'embarque que son propre code.
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const TeamPage = lazy(() => import("./pages/TeamPage"));
+const MerciPage = lazy(() => import("./pages/MerciPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const MentionsLegalesPage = lazy(() => import("./pages/LegalPages").then((m) => ({ default: m.MentionsLegalesPage })));
+const ConfidentialitePage = lazy(() => import("./pages/LegalPages").then((m) => ({ default: m.ConfidentialitePage })));
+const ConditionsPage = lazy(() => import("./pages/LegalPages").then((m) => ({ default: m.ConditionsPage })));
 import Seo from "./components/Seo";
 import CookieBanner from "./components/CookieBanner";
 import StickyCta from "./components/StickyCta";
@@ -44,8 +47,10 @@ export default function App() {
       <ScrollGuard />
       <Seo />
       <ScrollToTop />
+      <a href="#contenu" className="skip-link">Aller au contenu</a>
       <Navbar />
-      <main>
+      <main id="contenu" tabIndex={-1}>
+        <Suspense fallback={<div className="page-loading" />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -56,6 +61,7 @@ export default function App() {
           <Route path="/conditions" element={<ConditionsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <StickyCta />
