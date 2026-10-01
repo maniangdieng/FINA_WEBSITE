@@ -3,12 +3,6 @@ import { Users, TrendingUp, Code2, RotateCw, Target } from "lucide-react";
 import { useFadeUp } from "../hooks/useFadeUp";
 import { asset } from "../lib/asset";
 
-const IMPACT = [
-  { val: "12",    lbl: "Modules intégrés" },
-  { val: "100 %", lbl: "Web, sans installation" },
-  { val: "24 h",  lbl: "Délai de réponse du support" },
-];
-
 const TEAM: { name: string; initials: string; role: string; bio: string; icon: typeof TrendingUp; photo?: string }[] = [
   {
     name: "Bassirou Abdou Khoudoss MBOUP", initials: "BM", role: "Marketing & Finance", icon: TrendingUp,
@@ -50,37 +44,29 @@ export default function TeamPage() {
         <div className="container">
           <span className="badge"><Users size={13} /> Notre équipe</span>
           <h1>L'équipe Finavators</h1>
-          <p>Quatre personnes, un seul objectif : donner aux PME africaines les outils de gestion qu'elles méritent.</p>
+          <p>Nous sommes quatre à construire GPME-MT depuis Ziguinchor, pour les commerçants et les PME africaines.</p>
         </div>
       </section>
 
       {/* ── Mission & impact ── */}
-      <section className="section-dark sec" ref={missionRef}>
+      <section className="section-light sec" ref={missionRef}>
         <div className="container">
-          <div className="section-head light fade-up">
-            <span className="badge" style={{ background: "rgba(230,167,86,.15)", borderColor: "rgba(230,167,86,.25)" }}>
+          <div className="section-head fade-up">
+            <span className="badge">
               <Target size={13} /> Notre mission
             </span>
             <h2>Simplifier la gestion des PME africaines</h2>
             <p>
               Finavators est une plateforme de gestion commerciale et ERP qui centralise ventes, stock, caisse,
-              finances et clients dans un seul outil simple à utiliser — pour que chaque entrepreneur pilote son
-              activité avec des chiffres fiables, pas des approximations.
+              finances et clients dans un seul outil simple à utiliser. Objectif : que chaque entrepreneur décide
+              à partir de chiffres fiables, pas d'approximations.
             </p>
-          </div>
-          <div className="mission-stats fade-up delay-2">
-            {IMPACT.map(({ val, lbl }) => (
-              <div className="mission-stat" key={lbl}>
-                <div className="hero-stat-num">{val}</div>
-                <div className="hero-stat-label">{lbl}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* ── Team grid ── */}
-      <section className="section-light sec" ref={fadeRef}>
+      <section className="section-light sec sec-tight-top" ref={fadeRef}>
         <div className="container">
           <div className="section-head fade-up">
             <span className="team-hint-text"><RotateCw size={13} /> Survolez ou touchez une carte pour la retourner</span>
@@ -96,7 +82,7 @@ export default function TeamPage() {
                   tabIndex={0}
                   role="button"
                   aria-pressed={isFlipped}
-                  aria-label={`${m.name} — ${m.role}`}
+                  aria-label={`${m.name}, ${m.role}`}
                   onClick={() => toggle(m.name)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(m.name); } }}
                 >

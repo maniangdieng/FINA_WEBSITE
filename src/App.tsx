@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import GlobalAnimatedBg from "./components/GlobalAnimatedBg";
 import HomePage from "./pages/HomePage";
 import ContactPage from "./pages/ContactPage";
 import TeamPage from "./pages/TeamPage";
@@ -13,7 +12,7 @@ import Seo from "./components/Seo";
 import CookieBanner from "./components/CookieBanner";
 import StickyCta from "./components/StickyCta";
 
-const SECTION_IDS = ["features", "assistant", "modules", "sectors", "how", "pricing", "cta"];
+const SECTION_IDS = ["features", "assistant", "sectors", "how", "pricing", "cta"];
 
 // Google search results sometimes link to a text passage found anywhere on
 // the page (e.g. the footer's boilerplate paragraph, repeated on every
@@ -45,7 +44,6 @@ export default function App() {
       <ScrollGuard />
       <Seo />
       <ScrollToTop />
-      <GlobalAnimatedBg />
       <Navbar />
       <main>
         <Routes>

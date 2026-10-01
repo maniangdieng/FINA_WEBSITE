@@ -151,8 +151,8 @@ export default function ContactPage() {
       <section className="contact-hero">
         <div className="container">
           <span className="badge"><MessageSquare size={13} /> Nous contacter</span>
-          <h1>Parlons de votre projet</h1>
-          <p>Une question, une démo, un partenariat ? Notre équipe vous répond sous 24h.</p>
+          <h1>Parlons de votre activité</h1>
+          <p>Une question, une démo, un partenariat ? Nous vous répondons sous 24 h.</p>
         </div>
       </section>
 
@@ -212,7 +212,7 @@ export default function ContactPage() {
 
                 <div className="form-group">
                   <label htmlFor="f-subject">Objet <span className="req">*</span></label>
-                  <input type="text" placeholder="Ex : Demande de démonstration pour 5 utilisateurs" maxLength={150} {...field("subject")} />
+                  <input type="text" placeholder="Ex : Demande de démonstration pour 5 utilisateurs" maxLength={150} {...field("subject")} />
                   {err("subject")}
                 </div>
 
@@ -235,7 +235,7 @@ export default function ContactPage() {
                       <><Send size={16} /> Envoyer le message</>
                     )}
                   </button>
-                  <span style={{ fontSize: ".78rem", color: "var(--muted)" }}>Réponse sous 24h ouvrables</span>
+                  <span style={{ fontSize: ".78rem", color: "var(--muted)" }}>Réponse sous 24 h ouvrables</span>
                 </div>
                 <p className="form-privacy">
                   Vos informations servent uniquement à vous répondre.{" "}

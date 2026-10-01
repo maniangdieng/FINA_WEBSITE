@@ -29,3 +29,11 @@ export const LEGAL = {
   siege: "Ziguinchor, Sénégal",
   directeurPublication: "Maniang DIENG",
 };
+
+// Réseaux sociaux affichés dans le pied de page. Lien vide = icône masquée.
+export const SOCIAL = {
+  tiktok: "",
+  instagram: "",
+  linkedin: "",
+  facebook: "",
+};

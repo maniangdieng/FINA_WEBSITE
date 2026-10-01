@@ -46,7 +46,7 @@ export default function Navbar() {
 
           {/* Logo — icône réelle + wordmark HTML, sur fond sombre */}
           <Link to="/" className="navbar-brand" aria-label="Finavators">
-            <img src={asset("/logo-mark.png")} alt="" className="navbar-logo-mark" />
+            <img src={asset("/logo-mark.png")} alt="" className="navbar-logo-mark" width={36} height={36} />
             <span className="navbar-logo-word">
               <span className="navbar-logo-word-fina">FINA</span>
               <span className="navbar-logo-word-vators">VATORS</span>
@@ -62,10 +62,10 @@ export default function Navbar() {
           </div>
 
           <div className="navbar-cta">
-            <a href={`${APP_URL}/login`} className="nav-link" style={{ marginRight: "8px" }}>
+            <a href={`${APP_URL}/login`} className="nav-link">
               Se connecter
             </a>
-            <Link to="/contact" className="btn btn-primary" style={{ padding: "8px 20px", fontSize: ".85rem" }}>
+            <Link to="/contact" className="btn btn-primary btn-sm">
               Demander une démo
             </Link>
           </div>
